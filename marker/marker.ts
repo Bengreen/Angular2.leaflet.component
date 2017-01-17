@@ -20,15 +20,19 @@ import * as L from 'leaflet';
 })
 
 export class MarkerElement {
-    @Input() lat: number = 52.6;
-    @Input() lon: number = -1.1;
-    @Input() mouseover: string = "";
-    @Input() popup: any;
-    @Input() popupOptions: L.PopupOptions;
-    @Input() onclick: string = "";
-    @Input() iconUrl: string = "";
-    @Input() icon: L.Icon;
-    @Input() title: string;
+    @Input() latlng: L.LatLng;
+    @Input() options: L.MarkerOptions;
+
+    marker:L.Marker;
+
+
+    // @Input() lat: number = 52.6;
+    // @Input() lon: number = -1.1;
+    // @Input() mouseover: string = "";
+    // @Input() popup: any;
+    // @Input() popupOptions: L.PopupOptions;
+    // @Input() onclick: string = "";
+    // @Input() iconUrl: string = "";
 
     constructor(
         private mapService: MapService,
@@ -48,17 +52,14 @@ export class MarkerElement {
                 this.groupService.increaseNumber();
             }
 
-            var marker = L.marker([this.lat, this.lon], {
-                title: this.title,
-                icon: this.icon,
-            });
-            if (this.popup) {
-                marker.bindPopup(this.popup, {
-                    offset: L.point(12, 6)
-                }).openPopup();
-            }
+            this.marker = L.marker(this.latlng, this.options);
+            // if (this.popup) {
+            //     marker.bindPopup(this.popup, {
+            //         offset: L.point(12, 6)
+            //     }).openPopup();
+            // }
 
-            this.createMarkerlayer(marker, map);
+            this.createMarkerlayer(this.marker, map);
 
         }
     }
